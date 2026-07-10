@@ -1,0 +1,58 @@
+{
+	"description": "My hobby projects, most of them are Next.js apps deployed to Vercel.",
+	"githubUsername": "Seffin",
+	"avatarUrl": "",
+	"displayName": "Seffin Tom Mathew",
+	"email": "seffintommathew@gmail.com",
+	"phone": "+91 9384605370",
+	"locations": "Kochi, Trivandrum, Chennai",
+	"socials": {
+		"linkedin": "https://linkedin.com/in/seffin-tom-mathew-9a5b4320b"
+	},
+	"experience": [
+		{
+			"role": "Prompt Engineer (Contract)",
+			"company": "Independent Contractor",
+			"location": "Remote",
+			"period": "2025 – Present",
+			"highlights": [
+				"Design and optimize complex prompts using Context Prompting techniques to improve Large Language Model (LLM) output accuracy, structure, and relevance.",
+				"Develop prompt templates and workflows to streamline data extraction, text generation, and reasoning tasks."
+			]
+		}
+	],
+	"education": [
+		{
+			"degree": "Bachelor of Engineering in Computer Science and Engineering",
+			"institution": "Anna University",
+			"period": "2017 – 2021",
+			"score": "CGPA: 7.56"
+		},
+		{
+			"degree": "Higher Secondary (Class XII)",
+			"institution": "BMM English Medium Senior Secondary School, Kottayam (CBSE)",
+			"period": "2016 – 2017",
+			"score": "60%"
+		},
+		{
+			"degree": "Secondary School (Class X)",
+			"institution": "Vimalambika School, Pampady (CBSE)",
+			"period": "2014 – 2015",
+			"score": "70%"
+		}
+	],
+	"certifications": [
+		".NET Full Stack Development, Accord Info Matrix",
+		"Java Full Stack Development, Inet Infotech",
+		"Angular Certification, Accord Info Matrix"
+	],
+	"projects": {
+		"showForks": true,
+		"blacklist": [],
+		"heroNames": [],
+		"customUrls": {
+			"vachan-study-chat": "https://vachan-study-chat-snpm.vercel.app/",
+			"python-scriptures": ""
+		}
+	}
+}
