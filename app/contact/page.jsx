@@ -1,4 +1,4 @@
-import { FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaPhone, FaMapMarkerAlt, FaInstagram, FaFacebook, FaWhatsapp, FaGlobe } from "react-icons/fa";
 import { GoMail, GoPerson } from 'react-icons/go';
 import Link from "next/link";
 import { FaXTwitter } from "react-icons/fa6";
@@ -6,6 +6,7 @@ import { Navigation } from "../components/nav";
 import { Card } from "../components/card";
 import data from "../../data.json";
 import { getUser, getSocialAccounts } from "../data";
+import { ContactForm } from "./contact-form";
 
 export default async function Contacts(props) {
     const searchParams = await props.searchParams;
@@ -28,7 +29,7 @@ export default async function Contacts(props) {
     
     if (phone) {
 		contacts.push({
-			icon: <FaPhone size={20} />,
+			icon: <FaPhone size={18} />,
 			href: "tel:" + phone.replace(/\s+/g, ''),
 			label: "Phone",
 			handle: phone,
@@ -37,7 +38,7 @@ export default async function Contacts(props) {
 
     if (locations) {
 		contacts.push({
-			icon: <FaMapMarkerAlt size={20} />,
+			icon: <FaMapMarkerAlt size={18} />,
 			href: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(locations)}`,
 			label: "Location",
 			handle: locations,
@@ -46,14 +47,14 @@ export default async function Contacts(props) {
 
     if (email) {
 		contacts.push({
-			icon: <GoMail size={20} />,
+			icon: <GoMail size={18} />,
 			href: "mailto:" + email,
 			label: "Email",
 			handle: email,
 		});
 	}
     contacts.push({
-		icon: <FaGithub size={20} />,
+		icon: <FaGithub size={18} />,
 		href: "https://github.com/" + username,
 		label: "Github",
 		handle: username,
@@ -63,82 +64,131 @@ export default async function Contacts(props) {
     if (data.socials?.linkedin) {
         hasLinkedIn = true;
         contacts.push({
-            icon: <FaLinkedin size={20} />,
+            icon: <FaLinkedin size={18} />,
             href: data.socials.linkedin,
-            label: "linkedin",
+            label: "LinkedIn",
             handle: data.socials.linkedin.split("/").pop(),
+        });
+    }
+
+    if (data.socials?.instagram) {
+        contacts.push({
+            icon: <FaInstagram size={18} />,
+            href: data.socials.instagram,
+            label: "Instagram",
+            handle: data.socials.instagram.split("/").filter(Boolean).pop(),
+        });
+    }
+
+    if (data.socials?.facebook) {
+        contacts.push({
+            icon: <FaFacebook size={18} />,
+            href: data.socials.facebook,
+            label: "Facebook",
+            handle: data.socials.facebook.split("/").filter(Boolean).pop(),
+        });
+    }
+
+    if (data.socials?.whatsapp) {
+        contacts.push({
+            icon: <FaWhatsapp size={18} />,
+            href: data.socials.whatsapp,
+            label: "WhatsApp",
+            handle: phone || "WhatsApp Chat",
+        });
+    }
+
+    if (data.socials?.portfolio) {
+        contacts.push({
+            icon: <FaGlobe size={18} />,
+            href: data.socials.portfolio,
+            label: "Portfolio",
+            handle: data.socials.portfolio.replace("https://", "").replace("http://", "").replace("/", ""),
         });
     }
 
     githubSocials.forEach((s) => {
 		switch (s.provider) {
 			case "linkedin":
-                if (!hasLinkedIn) {
-                    contacts.push({
-                        icon: <FaLinkedin size={20} />,
-                        href: s.url,
-                        label: s.provider,
-                        // Extract last aprt of the url.
-                        handle: s.url.split("/").pop(),
-                    });
-                }
+				if (!hasLinkedIn) {
+					contacts.push({
+						icon: <FaLinkedin size={18} />,
+						href: s.url,
+						label: "LinkedIn",
+						handle: s.url.split("/").pop(),
+					});
+				}
 				break;
 			case "twitter":
 				contacts.push({
-					icon: <FaXTwitter size={20} />,
+					icon: <FaXTwitter size={18} />,
 					href: s.url,
-					label: s.provider,
-					// Extract last aprt of the url.
+					label: "Twitter",
 					handle: s.url.split("/").pop(),
 				});
 				break;
 			default:
 				contacts.push({
-					icon: <GoPerson size={20} />,
+					icon: <GoPerson size={18} />,
 					href: s.url,
-					// Extract domain from url.
-					label: s.url.split("/")[2],
-					// Extract last part of the url. Might not make sense in some cases.
-					// handle: s.url.split("/").pop(),
+					label: s.url.split("/")[2] || "Link",
+					handle: s.url.split("/").pop() || "Profile",
 				});
 				break;
 		}
 	});
 
     return (
-		<div className=" bg-linear-to-tl from-zinc-900/0 via-zinc-900 to-zinc-900/0">
+		<div className="bg-linear-to-tl from-zinc-950 via-zinc-900 to-zinc-950 min-h-screen text-zinc-200">
 			<Navigation />
-			<div className="container flex items-center justify-center min-h-screen px-4 mx-auto">
-				<div className="grid w-full grid-cols-1 gap-8 mx-auto mt-32 sm:mt-0 sm:grid-cols-3 lg:gap-16">
-					{contacts.map((s) => {
-						return (
-							<Card key={s.label}>
-								<Link
-									href={s.href}
-									target="_blank"
-									className="p-4 relative flex flex-col items-center gap-4 duration-700 group md:gap-8 md:py-24 lg:pb-48 md:p-16 sm:p-8"
-								>
-									<span
-										className="absolute w-px h-2/3 bg-linear-to-b from-zinc-500 via-zinc-500/50 to-transparent"
-										aria-hidden="true"
-									/>
-									<span className="relative z-10 flex items-center justify-center w-12 h-12 text-sm duration-1000 border rounded-full text-zinc-200 group-hover:text-white group-hover:bg-zinc-900 border-zinc-500 bg-zinc-900 group-hover:border-zinc-200 drop-shadow-orange">
-										{s.icon}
-									</span>{" "}
-									<div className="z-10 flex flex-col items-center w-full">
-										<span className={`text-center break-words text-lg font-medium duration-150 lg:text-xl text-zinc-200 group-hover:text-white font-display px-2`}>
-											{s.handle}
-										</span>
-										<span className="mt-4 text-sm text-center duration-1000 text-zinc-400 group-hover:text-zinc-200">
-											{s.label}
-										</span>
-									</div>
-								</Link>
-							</Card>
-						)
-					})}
+			<div className="container flex flex-col justify-center min-h-screen px-6 py-24 mx-auto max-w-6xl">
+				<div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start mt-12">
+					
+					{/* Left Column: Heading and Contact Links */}
+					<div className="lg:col-span-5 space-y-8">
+						<div>
+							<h1 className="text-4xl font-bold tracking-tight text-white font-display sm:text-5xl">
+								Let's Connect
+							</h1>
+							<p className="mt-4 text-zinc-400 leading-relaxed text-sm sm:text-base">
+								Have an interesting project, job opportunity, or just want to say hello? 
+								Feel free to reach out. I'm always open to discussing new ideas and creative collaborations.
+							</p>
+						</div>
+
+						<div className="flex flex-col gap-4">
+							{contacts.map((s) => (
+								<Card key={s.label}>
+									<Link
+										href={s.href}
+										target="_blank"
+										className="p-4 flex items-center gap-4 group transition-all duration-300"
+									>
+										<div className="flex items-center justify-center w-10 h-10 rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-400 group-hover:text-white group-hover:border-zinc-500 group-hover:bg-zinc-800/50 transition-all duration-300">
+											{s.icon}
+										</div>
+										<div className="flex flex-col min-w-0">
+											<span className="text-xs text-zinc-500 font-semibold uppercase tracking-wider">
+												{s.label}
+											</span>
+											<span className="text-sm font-medium text-zinc-300 group-hover:text-white truncate">
+												{s.handle}
+											</span>
+										</div>
+									</Link>
+								</Card>
+							))}
+						</div>
+					</div>
+
+					{/* Right Column: Contact Form */}
+					<div className="lg:col-span-7 w-full">
+						<ContactForm />
+					</div>
+					
 				</div>
 			</div>
 		</div>
 	);
 }
+
