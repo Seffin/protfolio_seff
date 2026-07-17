@@ -4,7 +4,8 @@ import { getUserOrganizations } from "../data";
 
 export const ProfileOrganizations = async ({ username }) => {
 
-	const organizations = (await getUserOrganizations(username)).data.user?.organizations.nodes;
+	const orgsData = await getUserOrganizations(username);
+	const organizations = orgsData?.data?.user?.organizations?.nodes || [];
 
 	return (
 		<p>I'm building stuff{

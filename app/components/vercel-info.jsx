@@ -151,7 +151,7 @@ export const VercelInfo = async ({ info }) => {
 	);
 
 	return (
-		<span className="text-zinc-500 text-xs flex items-center gap-1 me-2">
+		<div className="text-zinc-500 text-xs inline-flex items-center gap-1 me-2">
 			<span>{upgradeIcons}</span>
 			<span>{legacyUpgradeIcon}</span>
 			<span>{frameworkIcon}</span>
@@ -163,7 +163,7 @@ export const VercelInfo = async ({ info }) => {
 					<Popover key={index} button={uiLib.icon} content={uiLib.text} />
 				)) || null}
 			</span>
-		</span>
+		</div>
 	);
 }
 

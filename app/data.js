@@ -115,7 +115,7 @@ export const getUserOrganizations = unstable_cache(async (username) => {
     console.timeEnd('getUserOrganizations');
     const orgs = await res.json();
 
-    if (!res.ok) {
+    if (!res.ok || !orgs?.data?.user) {
         console.error('GitHub graphql returned an error.', res.status, res.statusText, orgs);
         return { data: { user: { organizations: { nodes: [] } } } };
     }

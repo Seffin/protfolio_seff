@@ -52,7 +52,8 @@
 		"heroNames": [],
 		"customUrls": {
 			"vachan-study-chat": "https://vachan-study-chat-snpm.vercel.app/",
-			"python-scriptures": ""
+			"python-scriptures": "",
+			"gundert-translation-editor": "https://gundert-translation-editor-rosy.vercel.app/"
 		}
 	}
 }

@@ -54,7 +54,7 @@ export const Article = async ({ project }) => {
                         {new Date(project.created_at).toISOString().substring(0, 10)}
                     </time>
                 </span>
-                <span className="text-zinc-500 text-xs flex items-center gap-1 ">
+                <div className="text-zinc-500 text-xs flex items-center gap-1 ">
                     {/* <Eye className="w-4 h-4" />{" "}
                     {Intl.NumberFormat("en-US", { notation: "compact" }).format(project.watchers_count)} */}
                     {project.vercel && <VercelInfo info={{ ...project.vercel, owner: project.owner }} />}
@@ -63,7 +63,7 @@ export const Article = async ({ project }) => {
                         <GoStar className="w-4 h-4" />{" "}
                         {Intl.NumberFormat("en-US", { notation: "compact" }).format(project.stargazers_count)}
                     </span>
-                </span>
+                </div>
             </div>
             
             <Link href={appLink}>
