@@ -58,7 +58,7 @@ export const getRepos = unstable_cache(async (username) => {
     }
     
     return response;
-}, (username) => ['getRepos', username], { revalidate: HOURS_1 });
+}, (username) => ['getRepos-v2', username], { revalidate: 60 });
 
 export const getSocialAccounts = unstable_cache(async (username) => {
     console.log('Fetching social accounts for', username);
@@ -95,7 +95,7 @@ export const getPinnedRepos = unstable_cache(async (username) => {
     const pinned = await res.json();
     const names = pinned.data.user.pinnedItems.nodes.map((node) => node.name);
     return names;
-}, ['getPinnedRepos'], { revalidate: HOURS_12 });
+}, ['getPinnedRepos-v2'], { revalidate: 300 });
 
 export const getUserOrganizations = unstable_cache(async (username) => {
     if (!hasGhToken()) {
