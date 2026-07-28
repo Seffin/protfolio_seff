@@ -43,6 +43,7 @@ portfolio/
 │   └── search/           # GitHub Search Page (/search)
 │       └── page.jsx      # View another user's portfolio by entering their username
 │
+├── resume.tex            # LaTeX format resume with contact details & portfolio link
 └── pages/
     └── api/
         └── users/

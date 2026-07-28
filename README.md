@@ -18,7 +18,7 @@ Based on the original templates by [chronark](https://chronark.com/) and [jiriho
   - Visitor statistics (unique visitors count)
   - Merged Copilot pull requests count
 - **Deployment Status**: Checks Vercel deployment status, framework detection, and UI libraries automatically from dependencies.
-- **Dynamic Routing**: Built using Next.js App Router.
+- **Resume Integration**: Includes a LaTeX source resume (`resume.tex`) and a built-in direct download button on the homepage to download the compiled PDF resume (`Seffin0.0.pdf`).
 
 ## Running Locally
 

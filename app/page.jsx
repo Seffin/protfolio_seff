@@ -74,6 +74,15 @@ const LandingComponent = async ({ searchParams: { customUsername } }) => {
 						</Link>
 					))}
 					<TryYourself customUsername={customUsername} />
+					<a
+						href="/Seffin0.0.pdf"
+						download="Seffin_Tom_Mathew_Resume.pdf"
+						target="_blank"
+						rel="noopener noreferrer"
+						className="text-lg duration-500 text-zinc-500 hover:text-zinc-300 border-dashed p-2 rounded-sm border-2 border-zinc-500 hover:border-zinc-300"
+					>
+						Download Resume 📄
+					</a>
 				</ul>
 			</nav>
 			<div className="hidden w-screen h-px animate-glow md:block animate-fade-left bg-linear-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0" />
