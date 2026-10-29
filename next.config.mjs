@@ -31,6 +31,7 @@ const nextConfig = {
                 }
             }
         ).then(res => res.json()).then(data => data.login).catch(() => defaultUsername) : defaultUsername,
+        NEXT_PUBLIC_WEB3FORMS_KEY: process.env.NEXT_PUBLIC_WEB3FORMS_KEY || process.env.WEB3FORMS_KEY || '',
     },
     images: {
         remotePatterns: [

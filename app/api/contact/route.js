@@ -31,35 +31,37 @@ export async function POST(request) {
 		// 1. Check for Web3Forms Access Key
 		const web3formsKey = process.env.WEB3FORMS_KEY || process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
 		if (web3formsKey) {
-			const res = await fetch("https://api.web3forms.com/submit", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Accept: "application/json",
-					"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-				},
-				body: JSON.stringify({
-					access_key: web3formsKey.trim(),
-					name,
-					email,
-					message,
-					subject: `New Portfolio Message from ${name}`,
-					from_name: `${name} (Portfolio Contact)`,
-				}),
-			});
-
-			const rawText = await res.text();
-			let result = null;
 			try {
-				result = JSON.parse(rawText);
-			} catch (parseErr) {
-				console.error("Web3Forms returned non-JSON response:", res.status, rawText.substring(0, 200));
-			}
+				const res = await fetch("https://api.web3forms.com/submit", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Accept: "application/json",
+						"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+					},
+					body: JSON.stringify({
+						access_key: web3formsKey.trim(),
+						name,
+						email,
+						message,
+						subject: `New Portfolio Message from ${name}`,
+						from_name: `${name} (Portfolio Contact)`,
+					}),
+				});
 
-			if (result?.success) {
-				return Response.json({ success: true, provider: "web3forms" });
-			} else {
-				console.error("Web3Forms error:", result || rawText.substring(0, 200));
+				const rawText = await res.text();
+				let result = null;
+				try {
+					result = JSON.parse(rawText);
+				} catch {
+					// Datacenter IPs on Vercel are challenged by Cloudflare; client-side browser submission handles it directly
+				}
+
+				if (result?.success) {
+					return Response.json({ success: true, provider: "web3forms" });
+				}
+			} catch (fetchErr) {
+				console.warn("Server Web3Forms call bypassed:", fetchErr.message);
 			}
 		}
 

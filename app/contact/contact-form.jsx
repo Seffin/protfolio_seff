@@ -25,6 +25,39 @@ export function ContactForm() {
 		setErrorMessage("");
 
 		try {
+			const web3Key = process.env.NEXT_PUBLIC_WEB3FORMS_KEY;
+
+			// Direct client submission to Web3Forms avoids Cloudflare datacenter IP challenges on Vercel
+			if (web3Key && web3Key.trim()) {
+				try {
+					const web3Res = await fetch("https://api.web3forms.com/submit", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							Accept: "application/json",
+						},
+						body: JSON.stringify({
+							access_key: web3Key.trim(),
+							name: formData.name,
+							email: formData.email,
+							message: formData.message,
+							from_name: `${formData.name} (Portfolio Contact)`,
+							subject: `New Portfolio Message from ${formData.name}`,
+						}),
+					});
+
+					const web3Data = await web3Res.json();
+					if (web3Data.success) {
+						setStatus("success");
+						setFormData({ name: "", email: "", message: "" });
+						return;
+					}
+				} catch (web3Err) {
+					console.warn("Direct Web3Forms failed, falling back to /api/contact:", web3Err);
+				}
+			}
+
+			// Fallback: Dispatch through internal /api/contact route
 			const res = await fetch("/api/contact", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
