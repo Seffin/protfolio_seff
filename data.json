@@ -15,13 +15,46 @@
 	},
 	"experience": [
 		{
-			"role": "Prompt Engineer (Contract)",
+			"role": "Software Development Assistant (Assisting Senior Software Engineer)",
+			"company": "New Life Computer Institute (NLCI)",
+			"location": "Bengaluru / Remote, India",
+			"period": "Oct 2025 – Present",
+			"highlights": [
+				"Assist a Senior Software Engineer in architecting, maintaining, and enhancing digital translation applications and language technologies for minority, tribal, and regional language groups across India.",
+				"Develop and optimize backend RESTful APIs, scripture data processing pipelines, and resource import/export workflows handling diverse formats (USFM, XML, JSON).",
+				"Integrate AI and LLM workflows (Retrieval-Augmented Generation, Gemini AI, Vector Search) for automated translation draft assistance and glossary consistency verification.",
+				"Perform database management (PostgreSQL / MongoDB), automated testing, bug fixes, and code reviews to ensure high reliability across multilingual digital platforms."
+			]
+		},
+		{
+			"role": "Prompt Engineer & AI Solutions Consultant",
 			"company": "Independent Contractor",
 			"location": "Remote",
 			"period": "2025 – Present",
 			"highlights": [
-				"Design and optimize complex prompts using Context Prompting techniques to improve Large Language Model (LLM) output accuracy, structure, and relevance.",
-				"Develop prompt templates and workflows to streamline data extraction, text generation, and reasoning tasks."
+				"Design and optimize complex prompts using Context Prompting, Few-Shot prompting, and Chain-of-Thought techniques to improve LLM accuracy, structure, and output consistency.",
+				"Develop prompt templates, evaluation benchmarks, and automated pipelines for data extraction, document summarization, and reasoning tasks."
+			]
+		},
+		{
+			"role": "Full Stack Developer",
+			"company": "Twinstep Solutions",
+			"location": "Chennai, India",
+			"period": "Oct 2024 – Oct 2025",
+			"highlights": [
+				"Designed and developed enterprise applications using .NET API web services and Windows Applications for industrial levels.",
+				"Developed secure RESTful APIs utilizing JWT authentication.",
+				"Optimized MySQL queries, successfully reducing API response time.",
+				"Conducted peer code reviews and performed QA testing to ensure software quality and maintainability."
+			]
+		},
+		{
+			"role": "Junior Software Developer",
+			"company": "HiDreamz Solutions",
+			"location": "Kottayam, India",
+			"period": "Oct 2023 – Sep 2024",
+			"highlights": [
+				"Developed and deployed full-stack web applications utilizing Python Flask and MySQL."
 			]
 		}
 	],
@@ -53,7 +86,12 @@
 	"projects": {
 		"showForks": true,
 		"blacklist": [],
-		"heroNames": [],
+		"heroNames": [
+			"vachan-study-chat",
+			"gundert-translation-editor",
+			"bistro-board",
+			"scrummer"
+		],
 		"customUrls": {
 			"vachan-study-chat": "https://vachan-study-chat-snpm.vercel.app/",
 			"python-scriptures": "",

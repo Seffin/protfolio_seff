@@ -10,30 +10,55 @@ export function ContactForm() {
 		message: "",
 	});
 	const [status, setStatus] = useState("idle"); // idle, loading, success, error
+	const [errorMessage, setErrorMessage] = useState("");
+	const [fallbackMailto, setFallbackMailto] = useState("");
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (!formData.name || !formData.email || !formData.message) {
 			setStatus("error");
+			setErrorMessage("Please fill out all fields.");
 			return;
 		}
 
 		setStatus("loading");
+		setErrorMessage("");
 
-		// Simulate API call
 		try {
-			await new Promise((resolve) => setTimeout(resolve, 1500));
+			const res = await fetch("/api/contact", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(formData),
+			});
+
+			const data = await res.json();
+
+			if (!res.ok || data.error) {
+				setStatus("error");
+				setErrorMessage(data.error || "Failed to send message. Please try again.");
+				return;
+			}
+
+			if (data.mailtoUrl) {
+				setFallbackMailto(data.mailtoUrl);
+			}
+
 			setStatus("success");
 			setFormData({ name: "", email: "", message: "" });
 		} catch (error) {
+			console.error("Submission error:", error);
 			setStatus("error");
+			setErrorMessage("A network error occurred. Please try again or email directly.");
 		}
 	};
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prev) => ({ ...prev, [name]: value }));
-		if (status === "error") setStatus("idle");
+		if (status === "error") {
+			setStatus("idle");
+			setErrorMessage("");
+		}
 	};
 
 	if (status === "success") {
@@ -42,16 +67,31 @@ export function ContactForm() {
 				<div className="flex items-center justify-center w-16 h-16 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-6 animate-bounce">
 					<GoCheck size={32} />
 				</div>
-				<h3 className="text-2xl font-semibold text-zinc-100 mb-2">Message Sent!</h3>
-				<p className="text-zinc-400 max-w-sm mb-6">
-					Thank you for reaching out. I'll get back to you as soon as possible.
+				<h3 className="text-2xl font-semibold text-zinc-100 mb-2">Message Received!</h3>
+				<p className="text-zinc-400 max-w-sm mb-6 text-sm">
+					Thank you for reaching out! Your message has been recorded. I'll get back to you as soon as possible.
 				</p>
-				<button
-					onClick={() => setStatus("idle")}
-					className="px-6 py-2.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 hover:text-white border border-zinc-700 transition-all duration-300 text-sm font-medium"
-				>
-					Send another message
-				</button>
+				<div className="flex flex-col sm:flex-row gap-3">
+					{fallbackMailto && (
+						<a
+							href={fallbackMailto}
+							target="_blank"
+							rel="noopener noreferrer"
+							className="px-5 py-2.5 rounded-lg bg-zinc-100 hover:bg-white text-zinc-950 font-medium transition-all duration-300 text-sm flex items-center justify-center gap-2"
+						>
+							<GoMail className="w-4 h-4" /> Send via Mail App
+						</a>
+					)}
+					<button
+						onClick={() => {
+							setStatus("idle");
+							setFallbackMailto("");
+						}}
+						className="px-5 py-2.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 hover:text-white border border-zinc-700 transition-all duration-300 text-sm font-medium"
+					>
+						Send another message
+					</button>
+				</div>
 			</div>
 		);
 	}
@@ -113,13 +153,13 @@ export function ContactForm() {
 				</div>
 
 				{status === "error" && (
-					<p className="text-sm text-rose-500">Please fill out all fields correctly.</p>
+					<p className="text-sm text-rose-500">{errorMessage || "Please fill out all fields correctly."}</p>
 				)}
 
 				<button
 					type="submit"
 					disabled={status === "loading"}
-					className="w-full relative group overflow-hidden py-3 px-4 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 text-sm font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+					className="w-full relative group overflow-hidden py-3 px-4 rounded-xl bg-zinc-100 hover:bg-white text-zinc-950 text-sm font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
 				>
 					{status === "loading" ? (
 						<>
@@ -131,6 +171,9 @@ export function ContactForm() {
 					)}
 				</button>
 			</form>
+			<p className="mt-4 text-xs text-center text-zinc-500">
+				Responses will be sent to your email address.
+			</p>
 		</div>
 	);
 }

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
-import { GoDependabot, GoEye, GoEyeClosed, GoStar } from 'react-icons/go';
+import { GoDependabot, GoEye, GoEyeClosed, GoStar, GoRepoForked } from 'react-icons/go';
 import { SiGithubcopilot } from 'react-icons/si';
 import { VercelInfo } from "../components/vercel-info";
 import { getTrafficPageViews, getDependabotAlerts, getCopilotPRs } from "../data";
@@ -49,11 +49,21 @@ export const Article = async ({ project }) => {
     return (
         <article className="p-4 md:p-8">
             <div className="flex justify-between gap-2 items-center">
-                <span className="text-xs duration-1000 text-zinc-200 group-hover:text-white group-hover:border-zinc-200 drop-shadow-orange">
-                    <time dateTime={new Date(project.created_at).toISOString()} title="Created">
-                        {new Date(project.created_at).toISOString().substring(0, 10)}
-                    </time>
-                </span>
+                <div className="flex items-center gap-2">
+                    <span className="text-xs duration-1000 text-zinc-400 group-hover:text-white">
+                        <time dateTime={new Date(project.created_at).toISOString()} title="Created">
+                            {new Date(project.created_at).toISOString().substring(0, 10)}
+                        </time>
+                    </span>
+                    {project.fork && (
+                        <span 
+                            title="Forked Open Source Repository" 
+                            className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-medium rounded border border-blue-500/40 bg-blue-500/10 text-blue-300"
+                        >
+                            <GoRepoForked className="w-3 h-3" /> Fork
+                        </span>
+                    )}
+                </div>
                 <div className="text-zinc-500 text-xs flex items-center gap-1 ">
                     {/* <Eye className="w-4 h-4" />{" "}
                     {Intl.NumberFormat("en-US", { notation: "compact" }).format(project.watchers_count)} */}

@@ -3,6 +3,7 @@ import { Article } from "./article";
 import data from "../../data.json";
 import chunk from 'lodash/chunk';
 import { getRepos, getPinnedRepos, getVercelProjects } from "../data";
+import { GoRepoForked } from 'react-icons/go';
 
 export default async function ProjectsComponent({ username }) {
 
@@ -43,14 +44,15 @@ export default async function ProjectsComponent({ username }) {
 		}
 	});
 
-	// const heroes = repositories.filter((project) => data.projects.heroNames.includes(project.name)).sort((a, b) => b.stargazers_count - a.stargazers_count);
-	const heroes = repositories.filter((project) => pinnedNames.includes(project.name)).sort((a, b) => b.stargazers_count - a.stargazers_count);
+	const heroList = (pinnedNames && pinnedNames.length > 0) ? pinnedNames : (data.projects?.heroNames || []);
+	const heroes = repositories.filter((project) => heroList.includes(project.name)).sort((a, b) => b.stargazers_count - a.stargazers_count);
+	const heroNamesSet = new Set(heroes.map(h => h.name));
+
 	const sorted = repositories
 		.filter((p) => !p.private)
 		.filter((p) => data.projects.showForks ? true : !p.fork)
 		.filter((p) => !p.archived)
-		// .filter((p) => p.name !== username)
-		.filter((p) => !pinnedNames.includes(p.name))
+		.filter((p) => !heroNamesSet.has(p.name))
 		.filter((p) => !data.projects.blacklist.includes(p.name))
 		.sort(
 			(a, b) =>
@@ -58,8 +60,9 @@ export default async function ProjectsComponent({ username }) {
 				new Date(a.updated_at ?? Number.POSITIVE_INFINITY).getTime(),
 		);
 
-	const hostedProjects = sorted.filter((p) => p.vercel || (p.homepage && p.homepage.trim() !== ''));
-	const notHostedProjects = sorted.filter((p) => !p.vercel && !(p.homepage && p.homepage.trim() !== ''));
+	const hostedProjects = sorted.filter((p) => !p.fork && (p.vercel || (p.homepage && p.homepage.trim() !== '')));
+	const forkedProjects = sorted.filter((p) => p.fork);
+	const otherProjects = sorted.filter((p) => !p.fork && !p.vercel && !(p.homepage && p.homepage.trim() !== ''));
 
 	return (
 		<>
@@ -98,18 +101,32 @@ export default async function ProjectsComponent({ username }) {
 				{hostedProjects.length > 0 && (
 					<>
 						<h3 className="mt-16 mb-8 text-2xl font-bold tracking-tight text-zinc-100">
-							Hosted Projects
+							Hosted & Production Projects
 						</h3>
 						<ProjectGrid projects={hostedProjects} />
 					</>
 				)}
 
-				{notHostedProjects.length > 0 && (
+				{forkedProjects.length > 0 && (
+					<>
+						<div className="mt-16 mb-8">
+							<h3 className="text-2xl font-bold tracking-tight text-zinc-100 flex items-center gap-2">
+								<GoRepoForked className="w-6 h-6 text-blue-400" /> Forked & Open Source Contributions
+							</h3>
+							<p className="text-sm text-zinc-400 mt-2">
+								Open-source libraries, script packages, and collaborative repositories forked and maintained.
+							</p>
+						</div>
+						<ProjectGrid projects={forkedProjects} />
+					</>
+				)}
+
+				{otherProjects.length > 0 && (
 					<>
 						<h3 className="mt-16 mb-8 text-2xl font-bold tracking-tight text-zinc-100">
 							Other Projects
 						</h3>
-						<ProjectGrid projects={notHostedProjects} />
+						<ProjectGrid projects={otherProjects} />
 					</>
 				)}
 		</>

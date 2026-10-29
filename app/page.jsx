@@ -39,20 +39,6 @@ const UserText = async ({ promise }) => {
 	);
 };
 
-const TryYourself = ({ customUsername }) => {
-
-	const href = customUsername ? '/' : '/search';
-
-	return <Link
-		href={href}
-		className="text-lg duration-500 text-zinc-500 hover:text-zinc-300 border-dashed p-2 rounded-sm border-2 border-zinc-500 hover:border-zinc-300"
-	>
-		{
-			customUsername ? 'Showing: ' + customUsername + ', click to cancel ❌' : 'Try yourself'
-		}
-	</Link>;
-};
-
 const LandingComponent = async ({ searchParams: { customUsername } }) => {
 
 	const username = customUsername || process.env.GITHUB_USERNAME || data.githubUsername;
@@ -61,27 +47,26 @@ const LandingComponent = async ({ searchParams: { customUsername } }) => {
 	return (
 		<div className="flex flex-col items-center justify-center w-screen min-h-screen overflow-y-auto bg-linear-to-tl from-black via-zinc-600/20 to-black">
 			<nav className="my-16 animate-fade-in">
-				<ul className="flex items-center justify-center gap-4">
+				<ul className="flex items-center justify-center gap-6">
 					{navigation.map((item) => (
 						<Link
 							key={item.href}
 							href={item.href + (customUsername ? `?customUsername=${customUsername}` : '')}
-							className="text-lg duration-500 text-zinc-500 hover:text-zinc-300"
+							className="text-base md:text-lg duration-500 text-zinc-400 hover:text-zinc-100"
 						>
 							<span className="inline-flex items-center">
 								{item.name} <LoadingIndicator />
 							</span>
 						</Link>
 					))}
-					<TryYourself customUsername={customUsername} />
 					<a
-						href="/Seffin0.0.pdf"
+						href="/Seffin0.1.pdf"
 						download="Seffin_Tom_Mathew_Resume.pdf"
 						target="_blank"
 						rel="noopener noreferrer"
-						className="text-lg duration-500 text-zinc-500 hover:text-zinc-300 border-dashed p-2 rounded-sm border-2 border-zinc-500 hover:border-zinc-300"
+						className="text-base md:text-lg duration-300 text-zinc-300 hover:text-white px-4 py-2 rounded-lg border border-zinc-700 hover:border-zinc-500 bg-zinc-900/60 hover:bg-zinc-800 transition-all inline-flex items-center gap-2"
 					>
-						Download Resume 📄
+						<span>Download Resume</span> 📄
 					</a>
 				</ul>
 			</nav>
